@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bson": "^4.0.0",
     "mongodb": "^2.2.5"
   }
 }
