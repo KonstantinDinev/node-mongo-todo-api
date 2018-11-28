@@ -16,7 +16,6 @@ const {User} = require('./../server/models/user')
 // });
 
 Todo.findByIdAndRemove('5bfe53e9680b00625df5478b').then((todo) => {
-  console.log(todo);
   if (!todo) {
     return res.status(404).send();
   }
