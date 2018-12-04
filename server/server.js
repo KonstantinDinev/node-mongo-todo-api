@@ -1,3 +1,5 @@
+// // TODO: Heroku and Test Database
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
@@ -9,9 +11,12 @@ const {User} = require('./models/user');
 const _ = require('lodash');
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 // middleware
-app.use(bodyParser.json());
+app.use(bodyParser.json(), (req, res, next) => {
+  next();
+});
 
 app.post('/todos', (req, res) => {
   var todo = new Todo({
@@ -99,8 +104,20 @@ app.patch('/todos/:id', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Started on port 3000');
+// POST /users
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  var user = new User(body);
+
+  user.save().then((user) => {
+    res.send(user);
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Started up port ${port}`);
 });
 
 module.exports = {app};
